@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="db.url">locationdb.ci8zhgzbiolo.us-east-1.rds.amazonaws.com/</entry>
+<entry key="db.port">3306</entry>
+<entry key="db.name">locationdb/</entry>
+<entry key="db.username"></entry>
+<entry key="db.password"></entry>
+</properties>
