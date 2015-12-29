@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="edu.columbia.locationsensor.MagnetometerActivity">
+
+    <TextView android:id="@+id/magnetometer_text_view"
+              android:text="@string/text_magnetometer"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"/>
+
+    <TextView android:id="@+id/text_magnetometer_x"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:layout_marginTop="30dp"/>
+
+    <TextView android:id="@+id/text_magnetometer_y"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:layout_marginTop="30dp"/>
+
+    <TextView android:id="@+id/text_magnetometer_z"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:layout_marginTop="30dp"/>
+
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/magnetometer_chart"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"/>
+
+</LinearLayout>

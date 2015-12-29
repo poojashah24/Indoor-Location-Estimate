@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="horizontal"
+              android:gravity="center"
+              android:weightSum="110"
+              android:background="#24920C">
+    <ImageButton
+        android:id="@+id/prev_button"
+        android:src="@drawable/ic_chevron_left_black_48dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:background="#24920C"
+        android:text="Prev"/>
+
+    <TextView
+        android:id="@+id/locationName"
+        android:background="#24920C"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        android:gravity="center"
+        android:text="Location"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <ImageButton
+        android:id="@+id/next_button"
+        android:src="@drawable/ic_chevron_right_black_48dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:background="#24920C"
+        android:text="Next"/>
+
+    <ImageView
+        android:id="@+id/weather"
+        android:src="@drawable/ic_brightness_5_black_48dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"/>
+
+</LinearLayout>

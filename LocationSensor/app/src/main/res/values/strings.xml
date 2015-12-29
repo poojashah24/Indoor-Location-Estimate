@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LocationSensor</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="edit_message">Enter your location</string>
+    <string name="button_send">Send</string>
+    <string name="button_search">Get location</string>
+    <string name="title_activity_display_message">My Message</string>
+    <string name="action_search">Search</string>
+    <string name="title_activity_pressure">PressureActivity</string>
+    <string name="text_pressure">Current Pressure Reading</string>
+    <string name="text_magnetometer">Current Magnetometer Reading</string>
+    <string name="no_pressure_sensor">No pressure sensor available!</string>
+    <string name="no_magnetic_sensor">No magnetic sensor available!</string>
+    <string name="title_activity_wifi">WifiActivity</string>
+    <string name="no_wifi_manager">Wifi is not supported on this device</string>
+    <string name="wifi_disabled">Wifi is currently disabled. Please enable Wifi</string>
+    <string name="title_activity_location">LocationActivity</string>
+    <string name="server_url">http://locationreceiverenv-w2g8sk2zuh.elasticbeanstalk.com/LocationUpdateServlet</string>
+    <string name="send_failed">Could not send data to the server. Please check your connection</string>
+    <string name="building_name_msg">Building name</string>
+    <string name="floor_msg">Floor</string>
+    <string name="room_msg">Room</string>
+    <string name="street_msg">Street Address</string>
+    <string name="city_msg">City</string>
+    <string name="zipcode_msg">Zipcode</string>
+    <string name="server_url_message">Please enter the server URL</string>
+    <string name="title_activity_app_preference">AppPreferenceActivity</string>
+    <string name="mesg_ok">OK</string>
+    <string name="wifi_dialog_title">Connection details for </string>
+    <string name="location_sent">Your location details have been sent</string>
+    <string name="title_activity_test_db">TestDBActivity</string>
+    <string name="weather_url">http://api.openweathermap.org/data/2.5/weather?</string>
+    <string name="weather_icon_url">http://openweathermap.org/img/w/</string>
+
+
+</resources>

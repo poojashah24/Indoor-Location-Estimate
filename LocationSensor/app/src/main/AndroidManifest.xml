@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.columbia.locationsensor" >
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <permission
+        android:name="edu.columbia.locationsensor.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyD01A-cgCTz4eHP9tw475f3kV4EqOoA6H4" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DisplayMessageActivity"
+            android:label="@string/title_activity_display_message"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.columbia.locationsensor.MainActivity" />
+        </activity>
+        <activity
+            android:name=".PressureActivity"
+            android:label="@string/title_activity_pressure" >
+        </activity>
+        <activity
+            android:name=".WifiActivity"
+            android:label="@string/title_activity_wifi" >
+        </activity>
+        <activity
+            android:name=".MagnetometerActivity"
+            android:label="Magnetometer" >
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".LocationActivity"
+            android:label="@string/title_activity_location" >
+        </activity>
+        <activity
+            android:name=".EstimoteClient"
+            android:label="EstimoteClient" >
+        </activity>
+
+        <service
+            android:name=".PressureService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".LocationService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".WifiService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".MagnetometerService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name=".AppPreferenceActivity"
+            android:label="@string/title_activity_app_preference"
+            android:parentActivityName="android.preference.PreferenceActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.preference.PreferenceActivity" />
+        </activity>
+
+        <service
+            android:name=".MagnetometerService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name=".TestDBActivity"
+            android:label="@string/title_activity_test_db" >
+        </activity>
+        <receiver android:name=".MainActivity$NextButtonListener" />
+        <receiver android:name=".MainActivity$PrevButtonListener" />
+        <receiver android:name=".MainActivity$SelectLocationListener" />
+    </application>
+
+</manifest>
