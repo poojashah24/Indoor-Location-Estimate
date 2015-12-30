@@ -17,64 +17,65 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Creates a CSV file containing each weather station's code and location coordinates.
+ * This is used to determine the closest weather station to a given set of coordinates. 
+ * @author Pooja
+ *
+ */
 public class StationCSVCreator {
 	public static void main(String[] args) {
 		new StationCSVCreator().createStationsCSV();
 	}
-	
-	public void createStationsCSV() {	
+
+	public void createStationsCSV() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(
 					"src/edu/columbia/locationreceiver/stations.xml"));
 			StringBuilder b = new StringBuilder();
 			String s = null;
-			while((s = reader.readLine()) != null) {
+			while ((s = reader.readLine()) != null) {
 				b.append(s);
 			}
 			reader.close();
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter("src/edu/columbia/locationreceiver/stations.csv"));
-			
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			Document doc = builder.parse(new InputSource(new StringReader(b.toString())));
-			if(doc != null) {
+
+			BufferedWriter writer = new BufferedWriter(new FileWriter(
+					"src/edu/columbia/locationreceiver/stations.csv"));
+
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			Document doc = builder.parse(new InputSource(new StringReader(b
+					.toString())));
+			if (doc != null) {
 				NodeList elem = doc.getElementsByTagName("wx_station_index");
 				NodeList children = elem.item(0).getChildNodes();
-				for(int i=0;i<children.getLength();i++) {
+				for (int i = 0; i < children.getLength(); i++) {
 					Node n = children.item(i);
-					if(n.getNodeName().equals("station")) {
+					if (n.getNodeName().equals("station")) {
 						NodeList stationAttr = n.getChildNodes();
 						StringBuilder base = new StringBuilder();
-						
-						for(int j=0; j<stationAttr.getLength(); j++) {
+
+						for (int j = 0; j < stationAttr.getLength(); j++) {
 							Node attr = stationAttr.item(j);
-							if(attr.getNodeName().equals("station_id")) {
+							if (attr.getNodeName().equals("station_id")) {
 								base.append(attr.getTextContent() + ",");
 							} else if (attr.getNodeName().equals("state")) {
 								base.append(attr.getTextContent() + ",");
-							} else if(attr.getNodeName().equals("latitude")) {
+							} else if (attr.getNodeName().equals("latitude")) {
 								base.append(attr.getTextContent() + ",");
-							} else if(attr.getNodeName().equals("longitude")) {
+							} else if (attr.getNodeName().equals("longitude")) {
 								base.append(attr.getTextContent());
 							}
 						}
 						writer.write(base.toString() + "\n");
 						writer.flush();
-						
+
 					}
-				}				
+				}
 			}
 			writer.close();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+		} catch (SAXException | IOException | ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

@@ -1,13 +1,20 @@
 package edu.columbia.locationreceiver;
 
+/**
+ * Stores the magnetometer sensor readings transmitted by each device.
+ * 
+ * @author Pooja
+ *
+ */
 public class MagnetometerReading {
 	private double x;
 	private double y;
 	private double z;
 	private long timestamp;
-	
-	public MagnetometerReading(){}
-	
+
+	public MagnetometerReading() {
+	}
+
 	public MagnetometerReading(double x, double y, double z) {
 		this.x = x;
 		this.y = y;

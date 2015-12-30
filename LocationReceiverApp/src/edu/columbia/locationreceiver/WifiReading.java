@@ -1,7 +1,11 @@
 package edu.columbia.locationreceiver;
 
-import java.util.Date;
-
+/**
+ * Stores details about Wi-Fi access points transmitted by each device.
+ * 
+ * @author Pooja
+ *
+ */
 public class WifiReading {
 	private String SSID;
 	private double frequency;

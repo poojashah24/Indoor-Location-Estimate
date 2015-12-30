@@ -2,6 +2,11 @@ package edu.columbia.locationreceiver;
 
 import java.util.List;
 
+/**
+ * Stores device and location details along with sensor readings.
+ * @author Pooja
+ *
+ */
 public class LocationInfo {
 	private Location locationDetails;
 	private DeviceInfo deviceInfo;

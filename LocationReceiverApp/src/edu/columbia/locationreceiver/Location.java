@@ -1,5 +1,11 @@
 package edu.columbia.locationreceiver;
 
+
+/**
+ * Stores details about each address, including a common name (e.g. home / work), building and street details.
+ * @author Pooja
+ *
+ */
 public class Location {
 	private String name;
 	private String building;

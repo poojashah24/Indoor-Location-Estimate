@@ -1,5 +1,11 @@
 package edu.columbia.locationreceiver;
 
+/**
+ * Location coordinates, defined in terms of latitude and longitude. 
+ * Used to store coordinates of weather stations.
+ * @author Pooja
+ *
+ */
 public class Coordinates {
 	private double latitude;
 	private double longitude;

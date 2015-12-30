@@ -1,5 +1,10 @@
 package edu.columbia.locationreceiver;
 
+/**
+ * Defines constants used across the entire project
+ * @author Pooja
+ *
+ */
 public class Constants {
 	public static final String DB_URL = "db.url";
 	public static final String DB_PORT = "db.port";

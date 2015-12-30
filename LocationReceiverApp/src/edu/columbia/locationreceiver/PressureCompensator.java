@@ -1,5 +1,10 @@
 package edu.columbia.locationreceiver;
 
+/**
+ * Calculates pressure at a given elevation using the barometric formula.
+ * @author Pooja
+ *
+ */
 public class PressureCompensator {
 	/*P_b = static pressure (pascals)
 	T_b = standard temperature (K)
