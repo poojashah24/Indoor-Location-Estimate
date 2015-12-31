@@ -37,6 +37,13 @@ The in-memory SQLite database stores all the sensor readings, and contains a tab
 ## Home screen widget
 The home screen widget will be displayed permanently in the notifications area. This widget contains button to scroll over a list of frequently used location, and a location can be clicked to transmit its details to the server application. Code for this widget is contained within MainActivity. The classes NextButtonListener, PrevButtonListener, and SelectLocationListener are listeners for the three controls within the widget. The listeners are included in MainActivity as they need access to the context.
 
+-----------------------------------------------------------------------------------------------------------------------------
+# Building the projects
+AndroidStudio was used to develop the LocationSensor project. Importing the gradle file as an existing project into AndroidStudio is sufficient to create the development environment. The build/clean menus within AndroidStudio can be used to clean and compile the project. Run/Debug menus can be used to install, run and debug the application.
+
+The Eclipse IDE was used to developed the LocationReceivedApp project. Any other IDE can also be used for development purposes. The four dependencies listed under the section "Installation of the server web application" should be added to the project classpath before compilation. The build/clean menus within Eclipse can be used to compile the project, and the generated WAR can be deployed to Tomcat from within Eclipse (using the Servers plugin) or as an external deployment.
+
+
 
 
 
