@@ -3,8 +3,8 @@ Indoor location estimate consists of a crowd-sourced Android application, and a 
 This system allows the collection of sensor values from phones and tablets, and streams the collected readings to the backend server application. This system is meant to be used as a building block in an indoor location estimation environment. 
 
 The system consists of two applications - 
-1. LocationSensor - Android application that records location and sensor readings.
-2. LocationReceiverApp - A web application that records readings sent by the client Android app, and persists them to a database.
+- LocationSensor - Android application that records location and sensor readings.
+- LocationReceiverApp - A web application that records readings sent by the client Android app, and persists them to a database.
 
 -----------------------------------------------------------------------------------------------------------------------------
 # Installation of the server application
@@ -12,10 +12,10 @@ The system consists of two applications -
 The server application should be deployed on a Tomcat server instance. It also needs connection to a MySQL database for storing the sensor values. The MySQL database configuration settings (url, dbname, username, password) are contained in the file DBConnector.java. Sensor readings will be persisted to this database. The schema can be found in the project report, as well as using the queries in the file QueryConstants.java.
 
 The supporting JAR files required are included in the lib folder. There are 4 required libraries - 
-1. jackson-core-2.0.0.jar - for xml parsing
-2. json-20141113.jar - for json handling
-3. log4j-1.2.17.jar - for logging
-4. mysql-connector-java-5.1.34-bin.jar - for connecting to the MySQL database.
+- jackson-core-2.0.0.jar - for xml parsing
+- json-20141113.jar - for json handling
+- log4j-1.2.17.jar - for logging
+- mysql-connector-java-5.1.34-bin.jar - for connecting to the MySQL database.
 
 Each request sent by the Android application hits the servlet LocationUpdateServlet.java. This is the beginning of the workflow to save the sensor and location readings to the database. 
 
