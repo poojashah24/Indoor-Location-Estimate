@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Pooja on 2/22/15.
+ * Service to manage sensor updates for location coordinates.
  */
 public class LocationService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener{
@@ -51,10 +51,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         readingList.add(coordinates);
         dataSource.open();
         dataSource.insertLocationReading(coordinates);
-        //dataSource.close();
-        /*for(LocationCoordinates reading : readingList) {
-            dataSource.insertLocationReading(reading);
-        }*/
     }
 
     @Override
@@ -71,7 +67,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
                 .build();
         gLocationClient.connect();
         dataSource = new CoordinatesDataSource(this);
-        //dataSource.open();
 
        return START_STICKY;
     }

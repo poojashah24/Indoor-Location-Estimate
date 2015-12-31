@@ -1,7 +1,7 @@
 package edu.columbia.locationsensor;
 
 /**
- * Created by Pooja on 2/21/15.
+ * Stores readings from the location sensor, including coordinates, altitude and accuracy details.
  */
 public class LocationCoordinates {
     private double longitude;

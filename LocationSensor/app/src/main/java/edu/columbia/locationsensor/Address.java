@@ -1,6 +1,7 @@
 package edu.columbia.locationsensor;
 
 /**
+ * Stores the street address, city and zip code returned by the reverse geo-coding service.
  * Created by Pooja on 4/2/15.
  */
 public class Address {

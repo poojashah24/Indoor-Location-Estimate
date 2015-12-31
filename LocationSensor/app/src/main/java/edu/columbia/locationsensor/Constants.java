@@ -1,6 +1,7 @@
 package edu.columbia.locationsensor;
 
 /**
+ * Constants used across the project
  * Created by Pooja on 2/22/15.
  */
 public final class Constants {

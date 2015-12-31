@@ -19,43 +19,18 @@ import org.json.JSONObject;
 import java.util.List;
 
 /**
- * Created by Pooja on 2/22/15.
+ * This thread sends location readings to the backend web app.
  */
 public class HTTPAsyncTask extends AsyncTask<Void, Void, Integer> {
 
     private Context mContext;
     private Location location;
     private DeviceInfo deviceInfo;
-    private List<LocationReading> locationReadings;
-
-    private LocationCoordinates locationCoordinates;
-    private PressureReading pressureReading;
-    private WifiReading wifiReading;
-    private MagnetometerReading magnetometerReading;
-
 
     public HTTPAsyncTask() {}
 
     public HTTPAsyncTask(Context mContext) {
         this.mContext = mContext;
-    }
-
-    public HTTPAsyncTask(Context mContext, Location location, LocationCoordinates locationCoordinates, PressureReading pressureReading,
-                         WifiReading wifiReading, MagnetometerReading magnetometerReading, DeviceInfo deviceInfo) {
-        this.mContext = mContext;
-        this.location = location;
-        this.locationCoordinates = locationCoordinates;
-        this.pressureReading = pressureReading;
-        this.wifiReading = wifiReading;
-        this.magnetometerReading = magnetometerReading;
-        this.deviceInfo = deviceInfo;
-    }
-
-    public HTTPAsyncTask(Context mContext, List<LocationReading> locationReadings) {
-        this.mContext = mContext;
-        this.location = locationReadings.get(0).getLocation();
-        this.deviceInfo = locationReadings.get(0).getDeviceInfo();
-        this.locationReadings = locationReadings;
     }
 
     public HTTPAsyncTask(Context mContext, LocationReading location) {
@@ -79,7 +54,6 @@ public class HTTPAsyncTask extends AsyncTask<Void, Void, Integer> {
         String serverURL = sharedPreferences.getString("AppPreferences",
                                     Constants.DEFAULT_SERVER_URL);
 
-        //HttpPost postMethod = new HttpPost(mContext.getString(R.string.server_url));
         HttpPost postMethod = new HttpPost(serverURL);
 
         try {
@@ -132,71 +106,6 @@ public class HTTPAsyncTask extends AsyncTask<Void, Void, Integer> {
                 locationInfoObj.put(Constants.TS, location.getRefreshTime());
                 dataObj.put(Constants.LOCATIONINFO, locationInfoObj);
             }
-
-            /*if(locationReadings != null) {
-                JSONArray pressureArray = new JSONArray();
-                JSONArray coordinatesArray = new JSONArray();
-                JSONArray wifiArray = new JSONArray();
-                JSONArray magnetometerArray = new JSONArray();
-
-                for(LocationReading reading : locationReadings) {
-                    PressureReading pressureReading = reading.getPressureReading();
-                    if(pressureReading != null) {
-                        JSONObject pressureObj = new JSONObject();
-                        pressureObj.put(Constants.PRESSURE, pressureReading.getPressure());
-                        pressureObj.put(Constants.TS, pressureReading.getRefreshTime());
-                        //dataObj.put(Constants.PRESSURE_READING, pressureObj);
-                        pressureArray.put(pressureObj);
-                    }
-                    //dataObj.put(Constants.PRESSURE_LIST, pressureArray);
-
-                    MagnetometerReading magnetometerReading = reading.getMagnetometerReading();
-                    if(magnetometerReading != null) {
-                        JSONObject magnetometerObj = new JSONObject();
-                        magnetometerObj.put(Constants.MAGNETOMETER_X, magnetometerReading.getX());
-                        magnetometerObj.put(Constants.MAGNETOMETER_Y, magnetometerReading.getY());
-                        magnetometerObj.put(Constants.MAGNETOMETER_Z, magnetometerReading.getZ());
-                        magnetometerObj.put(Constants.TS, magnetometerReading.getRefreshTime());
-
-                        magnetometerArray.put(magnetometerObj);
-                    }
-
-                    LocationCoordinates locationCoordinates = reading.getCoordinates();
-                    if(locationCoordinates != null) {
-                        JSONObject coordinatesObj = new JSONObject();
-                        coordinatesObj.put(Constants.LATITUDE, locationCoordinates.getLatitude());
-                        coordinatesObj.put(Constants.LONGITUDE, locationCoordinates.getLongitude());
-                        coordinatesObj.put(Constants.TS, locationCoordinates.getRefreshTime());
-                        coordinatesObj.put(Constants.ACCURACY, locationCoordinates.getAccuracy());
-                        coordinatesObj.put(Constants.ALTITUDE, locationCoordinates.getAltitude());
-                        coordinatesObj.put(Constants.SPEED, locationCoordinates.getSpeed());
-                        coordinatesObj.put(Constants.PROVIDER, locationCoordinates.getProvider());
-
-                        coordinatesArray.put(coordinatesObj);
-                        //dataObj.put(Constants.COORDINATES, coordinatesObj);
-                    }
-
-                    WifiReading wifiReading = reading.getWifiReading();
-                    if(wifiReading != null) {
-                        JSONArray wifiJSONArray = new JSONArray();
-                        for(WifiNetwork network : wifiReading.getWifiNetworks()) {
-                            JSONObject networkObj = new JSONObject();
-                            networkObj.put(Constants.SSID, network.getSSID());
-                            networkObj.put(Constants.FREQ, network.getFrequency());
-                            networkObj.put(Constants.LEVEL, network.getLevel());
-                            networkObj.put(Constants.TS, network.getTimeStamp());
-
-                            wifiJSONArray.put(networkObj);
-                        }
-                        wifiArray.put(wifiJSONArray);
-                        //dataObj.put(Constants.WIFILIST, wifiJSONArray);
-                    }
-                }
-                dataObj.put(Constants.PRESSURE_LIST, pressureArray);
-                dataObj.put(Constants.COORDINATES_LIST, coordinatesArray);
-                dataObj.put(Constants.WIFI_LIST, wifiArray);
-                dataObj.put(Constants.MAGNETOMETER_LIST, magnetometerArray);
-            }*/
         } catch(JSONException je) {
             je.printStackTrace();
         }

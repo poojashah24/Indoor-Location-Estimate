@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Pooja on 4/23/15.
+ * Used to query, insert and delete magnetometer sensor readings from and to the
+ * in-memory SQLite database.
  */
 public class MagnetometerDataSource {
 
@@ -25,10 +26,6 @@ public class MagnetometerDataSource {
         db = dbHelper.getWritableDatabase();
     }
 
-    /*public void close() {
-        dbHelper.close();
-    }*/
-
     public long insertMagnetometerReading(MagnetometerReading reading) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("x", reading.getX());
@@ -41,7 +38,6 @@ public class MagnetometerDataSource {
     }
 
     public void deleteMagnetometerReading() {
-        //db.delete("MAGNETOMETER_READING", "x="+x+" and y=" + y + " and z=" + z + "and timestamp="+refreshTime, null);
         db.delete("MAGNETOMETER_READING", null, null);
     }
 

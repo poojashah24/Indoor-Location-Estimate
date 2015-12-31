@@ -14,6 +14,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages sensor updates and readings sent by the pressure sensor.
+ */
 public class PressureService extends Service implements SensorEventListener {
 
     private SensorManager sensorManager;
@@ -37,7 +40,6 @@ public class PressureService extends Service implements SensorEventListener {
         else {
             sensorManager.registerListener(this, pressureSensor, 100000);
             dataSource = new PressureDataSource(this);
-            //dataSource.open();
             lastUpdate = System.currentTimeMillis();
             exception = null;
         }
@@ -61,12 +63,9 @@ public class PressureService extends Service implements SensorEventListener {
                 for(PressureReading reading : readingList) {
                     dataSource.insertPressureReading(reading.getPressure(), reading.getRefreshTime());
                 }
-                //dataSource.close();
                 readingList.clear();
             }
-
         }
-
     }
 
     @Override

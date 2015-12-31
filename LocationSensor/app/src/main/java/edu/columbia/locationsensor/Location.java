@@ -1,7 +1,7 @@
 package edu.columbia.locationsensor;
 
 /**
- * Created by mihir on 3/16/15.
+ * Stores a location defined by the name, building, floor, room, street, city and zip details.
  */
 public class Location {
     private String locationName;

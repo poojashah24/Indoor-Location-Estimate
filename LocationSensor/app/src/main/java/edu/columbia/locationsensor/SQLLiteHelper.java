@@ -9,7 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * Created by Pooja on 4/23/15.
+ * Helper class that creates and updates the in-memory SQLite database used within the Android application.
  */
 public class SQLLiteHelper extends SQLiteOpenHelper {
 
@@ -36,7 +36,6 @@ public class SQLLiteHelper extends SQLiteOpenHelper {
 
         return INSTANCE;
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -69,8 +68,6 @@ public class SQLLiteHelper extends SQLiteOpenHelper {
 
             long id = db.insert("FREQ_LOCATIONS", null, contentValues);
         }
-
-
     }
 
     @Override

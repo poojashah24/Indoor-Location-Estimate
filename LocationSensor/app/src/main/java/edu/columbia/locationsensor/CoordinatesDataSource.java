@@ -8,8 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Pooja on 4/23/15.
+ * Used to query, insert and delete location coordinate sensor readings from and to the
+ * in-memory SQLite database.
  */
 public class CoordinatesDataSource {
 
@@ -24,10 +26,6 @@ public class CoordinatesDataSource {
     public void open() {
         db = dbHelper.getWritableDatabase();
     }
-
-    /*public void close() {
-        dbHelper.close();
-    }*/
 
     public long insertLocationReading(LocationCoordinates locationCoordinates) {
         ContentValues contentValues = new ContentValues();

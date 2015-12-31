@@ -1,7 +1,7 @@
 package edu.columbia.locationsensor;
 
 /**
- * Created by Pooja on 4/11/15.
+ * Stores a magnetometer sensor reading.
  */
 public class MagnetometerReading {
     private double x;

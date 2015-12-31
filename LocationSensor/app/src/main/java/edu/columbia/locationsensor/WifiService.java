@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Pooja on 2/22/15.
+ * Manages Wi-Fi sensor updates and access point information sent by the Wi-Fi sensor.
  */
 public class WifiService extends Service {
 
@@ -50,6 +50,10 @@ public class WifiService extends Service {
         return null;
     }
 }
+
+/**
+ * Registers to receive Wi-Fi sensor updates.
+ */
 class WifiResultsReceiver extends BroadcastReceiver {
 
     WifiManager wifiManager;
@@ -59,7 +63,6 @@ class WifiResultsReceiver extends BroadcastReceiver {
 
         this.wifiManager = wifiManager;
         wifiDataSource = new WifiDataSource(mContext);
-        //wifiDataSource.open();
     }
 
     @Override
@@ -69,13 +72,11 @@ class WifiResultsReceiver extends BroadcastReceiver {
             List<WifiNetwork> wifiNetworkList = new ArrayList<>(wifiNetworks.size());
             wifiDataSource.open();
             for (ScanResult res : wifiNetworks) {
-                //long scanResultTimestampInMillisSinceEpoch = System.currentTimeMillis() - SystemClock.elapsedRealtime() + (res.timestamp / 1000);
                 int level = wifiManager.calculateSignalLevel(res.level, 5);
                 WifiNetwork network = new WifiNetwork(res.SSID, res.frequency, level, res.level, res.timestamp);
                 wifiNetworkList.add(network);
                 wifiDataSource.insertWifiReading(res.SSID, res.frequency, level, res.level, res.timestamp);
             }
-            //wifiDataSource.close();
             WifiReading wifiReading = new WifiReading(wifiNetworkList);
             DataHolder.getInstance().setWifiReading(wifiReading);
         }

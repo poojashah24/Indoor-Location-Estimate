@@ -13,7 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 /**
- * Created by Pooja on 5/20/15.
+ * Thread to send magnetometer readings to the backend server application
  */
 public class MagnetometerSenderThread extends Thread {
 
@@ -37,7 +37,6 @@ public class MagnetometerSenderThread extends Thread {
         String serverURL = sharedPreferences.getString("AppPreferences",
                 Constants.DEFAULT_SERVER_URL);
 
-        //HttpPost postMethod = new HttpPost(mContext.getString(R.string.server_url));
         HttpPost postMethod = new HttpPost(serverURL);
 
         try {

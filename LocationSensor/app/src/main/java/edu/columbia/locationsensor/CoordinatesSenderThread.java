@@ -5,12 +5,12 @@ import android.content.Context;
 import org.json.JSONObject;
 
 /**
- * Created by Pooja on 4/29/15.
+ * Thread to send location coordinates to the backend server application
  */
-public class CoordinatesHttpAsyncTask extends HTTPAsyncTask {
+public class CoordinatesSenderThread extends HTTPAsyncTask {
 
     private JSONObject coordinates;
-    public CoordinatesHttpAsyncTask(Context mContext, JSONObject coordinates) {
+    public CoordinatesSenderThread(Context mContext, JSONObject coordinates) {
         super(mContext);
         this.coordinates = coordinates;
     }

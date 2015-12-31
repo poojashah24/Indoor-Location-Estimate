@@ -1,7 +1,7 @@
 package edu.columbia.locationsensor;
 
 /**
- * Created by Pooja on 3/26/15.
+ * Stores details about a device (os version, device number, model etc.)
  */
 public class DeviceInfo {
     private final String osVersion;

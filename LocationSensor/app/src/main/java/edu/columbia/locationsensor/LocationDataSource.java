@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Pooja on 5/21/15.
+ * Used to query, insert and delete location entries from and to the
+ * in-memory SQLite database.
  */
 public class LocationDataSource {
     private SQLLiteHelper dbHelper;
@@ -23,10 +24,6 @@ public class LocationDataSource {
     public void open() {
         db = dbHelper.getWritableDatabase();
     }
-
-    /*public void close() {
-        dbHelper.close();
-    }*/
 
     public long insertLocation(Location location) {
         ContentValues contentValues = new ContentValues();

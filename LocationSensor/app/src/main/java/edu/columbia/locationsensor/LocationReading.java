@@ -1,7 +1,7 @@
 package edu.columbia.locationsensor;
 
 /**
- * Created by Pooja on 4/4/15.
+ * Wrapper around sensor readings, location and device information.
  */
 public class LocationReading {
     private DeviceInfo deviceInfo;

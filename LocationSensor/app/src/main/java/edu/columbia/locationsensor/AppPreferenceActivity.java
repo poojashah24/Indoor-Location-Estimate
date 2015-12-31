@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+/**
+ * Defines the settings screen. The setting screen can be used to set the server URL.
+ */
 public class AppPreferenceActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     @Override
@@ -38,19 +41,13 @@ public class AppPreferenceActivity extends PreferenceActivity implements SharedP
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_app_preference, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

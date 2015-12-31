@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Pooja on 4/23/15.
+ * Used to query, insert and delete wifi sensor readings from and to the
+ * in-memory SQLite database.
  */
 public class WifiDataSource {
 
@@ -25,10 +26,6 @@ public class WifiDataSource {
         db = dbHelper.getWritableDatabase();
     }
 
-    /*public void close() {
-        dbHelper.close();
-    }*/
-
     public long insertWifiReading(String SSID, int frequency, int level, int levelInDb, long timestamp) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("ssid", SSID);
@@ -42,7 +39,6 @@ public class WifiDataSource {
     }
 
     public void deleteWifiReading(String ssid, long timestamp) {
-        //"ssid=\""+ssid+"\" and timestamp="+timestamp
         db.delete("WIFI_READINGS", null, null);
     }
 

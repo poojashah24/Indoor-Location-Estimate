@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Pooja on 4/23/15.
+ * Used to query and insert recent locations from and to the
+ * in-memory SQLite database.
  */
 public class FreqLocationsDataSource {
 
@@ -25,17 +26,12 @@ public class FreqLocationsDataSource {
         db = dbHelper.getWritableDatabase();
     }
 
-    /*public void close() {
-        dbHelper.close();
-    }*/
-
     public long insertLocation(String location) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("location", location);
         long id = db.insert("FREQ_LOCATIONS", null, contentValues);
         return id;
     }
-
 
     public List<String> getAllFrequentLocations() {
         List<String> comments = new ArrayList<String>();

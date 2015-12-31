@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 /**
- * Created by Pooja on 4/9/15.
+ * User interface to display details about each Wi-Fi access point.
  */
 public class WifiDetailsDialog extends DialogFragment {
     WifiNetwork wifiNetwork;

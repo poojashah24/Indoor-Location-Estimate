@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 /**
- * Created by Pooja on 5/20/15.
+ * Thread to send location readings to the backend server application
  */
 public class LocationReadingsSenderThread extends Thread {
 
@@ -40,7 +40,6 @@ public class LocationReadingsSenderThread extends Thread {
         String serverURL = sharedPreferences.getString("AppPreferences",
                 Constants.DEFAULT_SERVER_URL);
 
-        //HttpPost postMethod = new HttpPost(mContext.getString(R.string.server_url));
         HttpPost postMethod = new HttpPost(serverURL);
 
         try {

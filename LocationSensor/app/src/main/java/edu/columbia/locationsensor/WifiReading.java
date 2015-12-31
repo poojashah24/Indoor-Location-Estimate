@@ -3,7 +3,7 @@ package edu.columbia.locationsensor;
 import java.util.List;
 
 /**
- * Created by Pooja on 2/22/15.
+ * Stores a list of wifi networks.
  */
 public class WifiReading {
     List<WifiNetwork> networks;

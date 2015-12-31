@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Pooja on 4/23/15.
+ * Used to query, insert and delete pressure sensor readings from and to the
+ * in-memory SQLite database.
  */
 public class PressureDataSource {
 
@@ -26,10 +27,6 @@ public class PressureDataSource {
         db = dbHelper.getWritableDatabase();
     }
 
-    /*public void close() {
-        dbHelper.close();
-    }*/
-
     public long insertPressureReading(double pressureReading, long refreshTime) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("pressure", pressureReading);
@@ -40,7 +37,6 @@ public class PressureDataSource {
     }
 
     public void deletePressureReading(double pressureReading, long refreshTime) {
-        //db.delete("PRESSURE_READINGS", )
         db.delete("PRESSURE_READINGS", "pressure="+pressureReading+" and timestamp="+refreshTime, null);
     }
 

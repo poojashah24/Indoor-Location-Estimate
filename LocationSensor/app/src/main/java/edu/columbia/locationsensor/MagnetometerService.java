@@ -13,6 +13,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service to manage sensor updates from the magnetometer sensor.
+ */
 public class MagnetometerService extends Service implements SensorEventListener{
 
     private SensorManager sensorManager;
@@ -37,7 +40,6 @@ public class MagnetometerService extends Service implements SensorEventListener{
         }
         else {
             dataSource = new MagnetometerDataSource(this);
-            //dataSource.open();
             lastUpdate = System.currentTimeMillis();
             readingList = new ArrayList<MagnetometerReading>();
             sensorManager.registerListener(this, magneticSensor, 5000);
@@ -59,7 +61,6 @@ public class MagnetometerService extends Service implements SensorEventListener{
                 for (MagnetometerReading mReading : readingList) {
                     dataSource.insertMagnetometerReading(mReading);
                 }
-                //dataSource.close();
                 readingList.clear();
             }
         }

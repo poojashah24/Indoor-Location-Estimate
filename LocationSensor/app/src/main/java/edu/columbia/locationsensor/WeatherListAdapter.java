@@ -31,7 +31,6 @@ public class WeatherListAdapter extends BaseAdapter {
         return weather_icons.length;
     }
 
-    /*private view holder class*/
     private class ViewHolder {
         ImageView imageView;
     }

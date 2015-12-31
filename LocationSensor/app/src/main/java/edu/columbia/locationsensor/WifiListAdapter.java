@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Pooja on 4/9/15.
+ * User interface adapter for the Wi-Fi listing layout.
  */
 public class WifiListAdapter extends ArrayAdapter<WifiNetwork> {
     Context context;
@@ -23,7 +23,6 @@ public class WifiListAdapter extends ArrayAdapter<WifiNetwork> {
         this.context = context;
     }
 
-    /*private view holder class*/
     private class ViewHolder {
         ImageView imageView;
         TextView txtTitle;

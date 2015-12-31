@@ -43,16 +43,14 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
 
-
+/**
+ * User interface for the pressure sensor.
+ * This displays current pressure readings in a graphical format.
+ */
 public class PressureActivity extends Activity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor pressureSensor;
-    /*private GraphicalView mChartView;
-    private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
-    private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
-    private XYSeries mCurrentSeries;
-    private XYSeriesRenderer mCurrentRenderer;*/
     TextView textView;
     TextView pressureReadingView;
 
@@ -70,17 +68,6 @@ public class PressureActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pressure);
 
-        // set some properties on the main renderer
-        /*mRenderer.setApplyBackgroundColor(true);
-        mRenderer.setBackgroundColor(Color.argb(100, 50, 50, 50));
-        mRenderer.setAxisTitleTextSize(16);
-        mRenderer.setChartTitleTextSize(20);
-        mRenderer.setLabelsTextSize(15);
-        mRenderer.setLegendTextSize(15);
-        mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
-        mRenderer.setZoomButtonsVisible(true);
-        mRenderer.setPointSize(5);*/
-
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
         if(pressureSensor == null)
@@ -88,11 +75,9 @@ public class PressureActivity extends Activity implements SensorEventListener {
 
         textView = (TextView) findViewById(R.id.pressure_text_view);
         Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/digital-7.ttf");
-        //textView.setTypeface(tf);
         textView.setTextSize(48);
 
         pressureReadingView = (TextView)findViewById(R.id.pressure_reading);
-        //pressureReadingView.setTypeface(tf);
         pressureReadingView.setTextSize(72);
 
         chartView = (LineChartView)findViewById(R.id.chart);
@@ -108,53 +93,6 @@ public class PressureActivity extends Activity implements SensorEventListener {
 
         if(pressureSensor != null)
             sensorManager.registerListener(this, pressureSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-
-        /*if (mChartView == null) {
-            LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
-            XYSeries ser = new XYSeries("Series 0");
-            ser.add(0.0, 0.0);
-            mCurrentSeries = ser;
-            mDataset.addSeries(ser);
-
-            XYSeriesRenderer renderer = new XYSeriesRenderer();
-            mRenderer.addSeriesRenderer(renderer);
-            // set some renderer properties
-            renderer.setPointStyle(PointStyle.CIRCLE);
-            renderer.setFillPoints(true);
-            renderer.setDisplayChartValues(true);
-            renderer.setDisplayChartValuesDistance(10);
-            mCurrentRenderer = renderer;
-
-            mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
-
-            // enable the chart click events
-            mRenderer.setClickEnabled(true);
-            mRenderer.setSelectableBuffer(10);
-            mChartView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // handle the click event on the chart
-                    SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
-                    if (seriesSelection == null) {
-                        Toast.makeText(PressureActivity.this, "No chart element", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // display information of the clicked point
-                        Toast.makeText(
-                                PressureActivity.this,
-                                "Chart element in series index " + seriesSelection.getSeriesIndex()
-                                        + " data point index " + seriesSelection.getPointIndex() + " was clicked"
-                                        + " closest point value X=" + seriesSelection.getXValue() + ", Y="
-                                        + seriesSelection.getValue(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-
-            layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
-                    LayoutParams.FILL_PARENT));
-        } else {
-            mChartView.repaint();
-        }*/
     }
 
     @Override
@@ -211,42 +149,16 @@ public class PressureActivity extends Activity implements SensorEventListener {
                         Line l = data.getLines().get(0);
                         l.setValues(values.getList());
                         data.getAxisXBottom().getValues().add(new AxisValue(i).setLabel(String.valueOf(i)));
-                        //data.setAxisXBottom(xaxis);
                         chartView.setLineChartData(data);
                     }
                 }
             }
             firstLoad = false;
         }
-
-        /*if(mCurrentSeries == null) {
-            String seriesTitle = "Series " + (mDataset.getSeriesCount() + 1);
-            // create a new series of data
-            XYSeries series = new XYSeries(seriesTitle);
-            mDataset.addSeries(series);
-            mCurrentSeries = series;
-            // create a new renderer for the new series
-            XYSeriesRenderer renderer = new XYSeriesRenderer();
-            mRenderer.addSeriesRenderer(renderer);
-            // set some renderer properties
-            renderer.setPointStyle(PointStyle.CIRCLE);
-            renderer.setFillPoints(true);
-            renderer.setDisplayChartValues(true);
-            renderer.setDisplayChartValuesDistance(10);
-            mCurrentRenderer = renderer;
-            mChartView.repaint();
-        }
-
-        mCurrentSeries.add(timeInMillis, pressure);
-        if(textView != null) {
-            String msg = getResources().getString(R.string.text_pressure) + pressureInMilliBars;
-            textView.setText(msg);
-        }
-        mChartView.repaint();*/
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //TODO : Do something here
+        //NO-OP
     }
 }

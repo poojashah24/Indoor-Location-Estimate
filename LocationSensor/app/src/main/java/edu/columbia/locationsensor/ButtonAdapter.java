@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.List;
 
 /**
- * Created by Pooja on 2/4/15.
+ * Defines the button for each sensor widget, i.e., barometer, wifi, location and magnetometer sensor.
  */
 public class ButtonAdapter extends BaseAdapter {
 
@@ -45,7 +45,7 @@ public class ButtonAdapter extends BaseAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         Button button;
-        if (convertView == null) {  // if it's not recycled, initialize some attributes
+        if (convertView == null) {
             button = new Button(context);
             button.setLayoutParams(new GridView.LayoutParams(500, 500));
             button.setMinimumHeight(500);

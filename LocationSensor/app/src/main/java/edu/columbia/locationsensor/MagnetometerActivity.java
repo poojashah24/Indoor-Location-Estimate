@@ -23,7 +23,9 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
 
-
+/**
+ * User interface for the magnetometer widget. This displays X, Y and Z readings on 3 axes.
+ */
 public class MagnetometerActivity extends Activity implements SensorEventListener {
 
     private SensorManager sensorManager;
@@ -103,7 +105,6 @@ public class MagnetometerActivity extends Activity implements SensorEventListene
             double yVal = event.values[1];
             double zVal = event.values[2];
             double timeInMillis = System.currentTimeMillis();
-            //double pressure = xVal;
 
             String yValReading = null;
             String zValReading = null;
@@ -182,42 +183,16 @@ public class MagnetometerActivity extends Activity implements SensorEventListene
                         zline.setValues(zValues.getList());
 
                         data.getAxisXBottom().getValues().add(new AxisValue(i).setLabel(String.valueOf(i)));
-                        //data.setAxisXBottom(xaxis);
                         chartView.setLineChartData(data);
                     }
                 }
             }
             firstLoad = false;
         }
-
-        /*if(mCurrentSeries == null) {
-            String seriesTitle = "Series " + (mDataset.getSeriesCount() + 1);
-            // create a new series of data
-            XYSeries series = new XYSeries(seriesTitle);
-            mDataset.addSeries(series);
-            mCurrentSeries = series;
-            // create a new renderer for the new series
-            XYSeriesRenderer renderer = new XYSeriesRenderer();
-            mRenderer.addSeriesRenderer(renderer);
-            // set some renderer properties
-            renderer.setPointStyle(PointStyle.CIRCLE);
-            renderer.setFillPoints(true);
-            renderer.setDisplayChartValues(true);
-            renderer.setDisplayChartValuesDistance(10);
-            mCurrentRenderer = renderer;
-            mChartView.repaint();
-        }
-
-        mCurrentSeries.add(timeInMillis, pressure);
-        if(textView != null) {
-            String msg = getResources().getString(R.string.text_pressure) + pressureInMilliBars;
-            textView.setText(msg);
-        }
-        mChartView.repaint();*/
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //TODO : Do something here
+        //NO-OP
     }
 }

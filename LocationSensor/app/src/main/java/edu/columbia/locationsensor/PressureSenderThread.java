@@ -5,12 +5,12 @@ import android.content.Context;
 import org.json.JSONObject;
 
 /**
- * Created by Pooja on 4/29/15.
+ * Thread to send pressure sensor readings to the backend server application
  */
-public class PressureHttpAsyncTask extends HTTPAsyncTask {
+public class PressureSenderThread extends HTTPAsyncTask {
 
     private JSONObject pressureReadings;
-    public PressureHttpAsyncTask(Context mContext, JSONObject pressureReadings) {
+    public PressureSenderThread(Context mContext, JSONObject pressureReadings) {
         super(mContext);
         this.pressureReadings = pressureReadings;
     }

@@ -3,7 +3,7 @@ package edu.columbia.locationsensor;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Pooja on 2/22/15.
+ * Serves as a holder for the latest device details and sensor readings.
  */
 public class DataHolder {
 
@@ -80,5 +80,4 @@ public class DataHolder {
             return magnetometerReading;
         }
     }
-
 }

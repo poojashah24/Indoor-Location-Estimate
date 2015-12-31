@@ -30,7 +30,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * User interface for the location sensor.
+ * This displays the user's current location using a marker on a map.
+ */
 public class LocationActivity extends ActionBarActivity
                     implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
                         OnMapReadyCallback, LocationListener{
@@ -112,8 +115,6 @@ public class LocationActivity extends ActionBarActivity
         request.setInterval(15 * 1000);
 
         LocationServices.FusedLocationApi.requestLocationUpdates(gLocationClient, request, this);
-        /*Location l = LocationServices.FusedLocationApi.getLastLocation(gLocationClient);
-        updateLocation(l);*/
     }
 
     @Override
@@ -169,19 +170,14 @@ public class LocationActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_location, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

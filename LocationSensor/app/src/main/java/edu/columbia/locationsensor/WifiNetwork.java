@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by Pooja on 2/22/15.
+ * Stores details about each Wi-Fi access point.
  */
 public class WifiNetwork implements Serializable, Comparable {
     private String SSID;
@@ -54,8 +54,6 @@ public class WifiNetwork implements Serializable, Comparable {
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
-
-
 
     public WifiNetwork(String SSID, int frequency, int level, int levelInDb, long timestamp) {
         this.SSID = SSID;

@@ -70,7 +70,6 @@ public class MainActivity extends ActionBarActivity {
     public static final String EXTRA_MESSAGE = "edu.columbia.locationsensor.MESSAGE";
     EditText editText;
     String msg;
-    //LocationService lService;
     SharedPreferences pref = null;
     private FreqLocationsDataSource freqLocationDataSource;
     private LocationDataSource locationDataSource;
@@ -81,6 +80,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // Record device information
         DeviceInfo deviceInfo = new DeviceInfo(System.getProperty("os.version"),
                 Build.VERSION.INCREMENTAL,
                 Build.VERSION.SDK_INT,
@@ -90,6 +92,7 @@ public class MainActivity extends ActionBarActivity {
 
         DataHolder.getInstance().setDeviceInfo(deviceInfo);
 
+        //Create a background service for each sensor.
         Intent pressureService = new Intent(getApplicationContext(), PressureService.class);
         startService(pressureService);
 
@@ -108,14 +111,15 @@ public class MainActivity extends ActionBarActivity {
         intents.add(new Intent(this, LocationActivity.class));
         intents.add(new Intent(this, MagnetometerActivity.class));
 
+        //Record frequent locations for the home screen widget.
         freqLocationDataSource = new FreqLocationsDataSource(this);
         locationDataSource = new LocationDataSource(this);
         createNotification();
 
-        //lService = conn.getService();
         GridView gridView = (GridView) findViewById(R.id.gridview);
         gridView.setAdapter(new ButtonAdapter(this, intents));
 
+        //Initialize application main screen
         pref = getSharedPreferences("APP_PREF", MODE_PRIVATE);
         if(pref == null) {
             System.out.print("Pref is null!");
@@ -138,6 +142,7 @@ public class MainActivity extends ActionBarActivity {
             editText.setText(room, TextView.BufferType.EDITABLE);
         }
 
+        //Start a background thread for flushing collected sensor readings to the web server application.
         DataFlusher flusher = new DataFlusher(this);
         Timer dataFlushTimer = new Timer();
         dataFlushTimer.scheduleAtFixedRate(flusher, 0, 1000*60);
@@ -173,47 +178,12 @@ public class MainActivity extends ActionBarActivity {
                         String weather = weatherObj.getJSONObject(0).getString(Constants.MAIN);
                         String icon = weatherObj.getJSONObject(0).getString("icon");
                         String iconURL = getString(R.string.weather_icon_url);
-                        /*noti.contentView.setImageViewUri(R.id.weather, Uri.parse(iconURL+icon+".png"));
-                        new AsyncTask<String, Void, Bitmap>() {
-                            Bitmap weatherIcon = null;
-                            protected Bitmap doInBackground(String... urls) {
-                                String urldisplay = urls[0];
 
-                                try {
-                                    InputStream in = new java.net.URL(urldisplay).openStream();
-                                    weatherIcon = BitmapFactory.decodeStream(in);
-                                } catch (Exception e) {
-                                    Log.e("Error", e.getMessage());
-                                    e.printStackTrace();
-                                }
-                                return weatherIcon;
-                            }
-
-                            protected void onPostExecute(Bitmap result) {
-                                noti.contentView.setImageViewBitmap(R.id.weather, weatherIcon);
-                                noti.largeIcon = weatherIcon;
-                                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                notificationManager.notify(0, noti);
-                            }
-
-                        }.execute(iconURL);*/
                         int resourceID = getResources().getIdentifier("icon_"+icon, "drawable", getPackageName());
                         if (resourceID != 0) {
                             noti.contentView.setImageViewResource(R.id.weather, resourceID);
                         }
-                        /*switch(weather) {
-                            case "Clear" :
-                                noti.contentView.setImageViewResource(R.id.weather, R.drawable.ic_brightness_5_black_48dp);
-                                break;
 
-                            case "Clouds":
-                                noti.contentView.setImageViewResource(R.id.weather, R.drawable.ic_wb_cloudy_black_48dp);
-                                break;
-
-                            default:
-                                noti.contentView.setImageViewResource(R.id.weather, R.drawable.ic_flash_on_black_48dp);
-
-                        }*/
                         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                         notificationManager.notify(0, noti);
 
@@ -227,24 +197,18 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Initializes the location sensor home screen widget.
+     */
     public void createNotification() {
         int position = 0;
         locationList = new ArrayList<String>();
-        /*locationList.add("home Level2 C");
-        locationList.add("work Level6 620");
-        locationList.add("CEPSR Level7 720");
-        locationList.add("CEPSR Level7 lobby");
-        locationList.add("CEPSR Level7 IRTLab");
-        locationList.add("CEPSR Level6 Lounge");
-        locationList.add("NWC Level4 library");
-        locationList.add("NWC Level5 library");
-        locationList.add("Mudd Level4 CSLounge");*/
+
         freqLocationDataSource.open();
         List<String> freqLocations = freqLocationDataSource.getAllFrequentLocations();
         for(String location : freqLocations) {
             locationList.add(location);
         }
-        //freqLocationDataSource.close();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         noti = new Notification(R.drawable.ic_launcher, null, System.currentTimeMillis());
@@ -292,6 +256,9 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Invoked when the next button is pressed on the home screen widget.
+     */
     public static class NextButtonListener extends BroadcastReceiver {
         static int position = 0;
         @Override
@@ -339,11 +306,13 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Invoked when the previous button is pressed on the home screen widget.
+     */
     public static class PrevButtonListener extends BroadcastReceiver {
         static int position = 0;
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("Here", "I am in prev");
             int position = intent.getIntExtra("position",-1);
             ArrayList<String> locationList = intent.getStringArrayListExtra("locations");
             Notification noti = intent.getParcelableExtra("notification");
@@ -389,11 +358,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Invoked when a location is selected on the home screen widget.
+     * This listener stores the selected location to the in-memory database.
+     */
     public static class SelectLocationListener extends BroadcastReceiver {
         static int position = 0;
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("Here", "I am in select");
             int position = intent.getIntExtra("position",-1);
             ArrayList<String> locationList = intent.getStringArrayListExtra("locations");
             Notification noti = intent.getParcelableExtra("notification");
@@ -409,10 +381,12 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Reloads the list of frequently accessed locations in the home screen widgets.
+     */
     private void reloadFrequentLocations(){
         freqLocationDataSource.open();
         List<String> freqLocations = freqLocationDataSource.getAllFrequentLocations();
-        //freqLocationDataSource.close();
         if (freqLocations != null) {
             locationList.clear();
             for(String location : freqLocations) {
@@ -462,9 +436,6 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         switch(id) {
@@ -486,7 +457,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void openSettings() {
-        //startActivity(new Intent(Settings.ACTION_SETTINGS));
         startActivity(new Intent(this, AppPreferenceActivity.class));
     }
 
@@ -502,6 +472,10 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Records a new location entry.
+     * @param view
+     */
     public void sendToServer(View view) {
 
         PressureReading pressureReading = DataHolder.getInstance().getPressureReading();
@@ -528,7 +502,6 @@ public class MainActivity extends ActionBarActivity {
         if(!locationList.contains(locationID)) {
             freqLocationDataSource.open();
             freqLocationDataSource.insertLocation(locationID);
-            //freqLocationDataSource.close();
         }
 
         if(pref == null) {
@@ -542,9 +515,6 @@ public class MainActivity extends ActionBarActivity {
             editor.commit();
         }
 
-        /*HttpSenderThread senderThread = new HttpSenderThread(this, location, building,
-                floor, room,street, city, zipCode);
-        senderThread.start();*/
         edu.columbia.locationsensor.Location locationEntry = new edu.columbia.locationsensor.Location();
         locationEntry.setLocationName(location);
         locationEntry.setBuilding(building);
@@ -555,26 +525,17 @@ public class MainActivity extends ActionBarActivity {
         locationEntry.setZipCode(zipCode);
         locationDataSource.open();
         locationDataSource.insertLocation(locationEntry);
-        //locationDataSource.close();
 
         String toastMessage = getString(R.string.location_sent);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
         reloadFrequentLocations();
-        /*String toastMessage = getString(R.string.text_pressure) + pressureReading.getPressure()
-                + "\n" + "Latitude: " + locationCoordinates.getLatitude()
-                + " Longitude: " + locationCoordinates.getLongitude();
-        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();*/
     }
 
     public void sendLocation(View view) {
         LocationCoordinates locationCoordinates = DataHolder.getInstance().getLocationCoordinates();
-        /*PressureReading pressureReading = DataHolder.getInstance().getPressureReading();
-        WifiReading  wifiReading = DataHolder.getInstance().getWifiReading();*/
 
         if(locationCoordinates != null) {
-            //Address addr = performReverseGeocoding(locationCoordinates);
             edu.columbia.locationsensor.Address addr = new edu.columbia.locationsensor.Address();
-            //edu.columbia.locationsensor.Address addr = performReverseGeocoding(locationCoordinates, address);
 
             EditText streetText = (EditText)findViewById(R.id.street);
             EditText cityText = (EditText)findViewById(R.id.city);
@@ -592,13 +553,6 @@ public class MainActivity extends ActionBarActivity {
             editText.setText("", TextView.BufferType.EDITABLE);
 
         }
-        /*HTTPAsyncTask httpTask = new HTTPAsyncTask(this, locationInfo, locationCoordinates, pressureReading, wifiReading);
-        httpTask.execute();
-
-        String toastMessage = getString(R.string.text_pressure) + pressureReading.getPressure()
-                    + "\n" + "Latitude: " + locationCoordinates.getLatitude()
-                    + " Longitude: " + locationCoordinates.getLongitude();
-        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();*/
     }
 
     public void startPressure(View view) {
@@ -611,55 +565,10 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-
-        if(editText != null) {
-            String message = editText.getText().toString();
-            message = "This is the saved message: " + message;
-            outState.putString("MESSAGE", message);
-        }
-
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        String message = savedInstanceState.getString("MESSAGE");
-        editText.setText(message);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if(keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }*/
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-
-    /*private Address performReverseGeocoding(LocationCoordinates coordinates) {
-        Geocoder geocoder = new Geocoder(this);
-        Address address = null;
-        try {
-            List<Address> addresses = geocoder.getFromLocation(coordinates.getLatitude(), coordinates.getLongitude(),1);
-            if(addresses != null && !addresses.isEmpty()) {
-                address = addresses.get(0);
-                System.out.print(address.getPostalCode());
-                System.out.print(address.getLocality());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return address;
-    }*/
 
     private void performReverseGeocoding(LocationCoordinates coordinates, edu.columbia.locationsensor.Address address,
                                          EditText streetText, EditText cityText, EditText zipText) {
@@ -669,124 +578,12 @@ public class MainActivity extends ActionBarActivity {
     }
 }
 
-class HttpSenderThread extends Thread {
 
-    private Context mContext;
-    private String location;
-    private String building;
-    private String floor;
-    private String room;
-    private String street;
-    private String city;
-    private String zipCode;
-    private long refreshTime;
-
-    private List<LocationReading> readings;
-
-    public HttpSenderThread(Context context, String location, String building, String floor, String room,
-                            String street, String city, String zipCode) {
-        this.mContext = context;
-        this.location = location;
-        this.building = building;
-        this.floor = floor;
-        this.room = room;
-        this.street = street;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.refreshTime = refreshTime;
-        this.readings = new ArrayList<LocationReading>();
-    }
-    @Override
-    public void run() {
-        edu.columbia.locationsensor.Location locationInfo = new edu.columbia.locationsensor.Location();
-        locationInfo.setLocationName(location);
-        locationInfo.setBuilding(building);
-        locationInfo.setFloor(floor);
-        locationInfo.setRoom(room);
-        locationInfo.setStreetAddress(street);
-        locationInfo.setCity(city);
-        locationInfo.setZipCode(zipCode);
-
-        DeviceInfo deviceInfo = DataHolder.getInstance().getDeviceInfo();
-
-        int i = 0;
-        LocationReading reading = new LocationReading();
-        reading.setDeviceInfo(deviceInfo);
-        reading.setLocation(locationInfo);
-
-        LocationSenderThread sender = new LocationSenderThread(mContext,reading);
-        sender.start();
-
-
-        /*JSONObject json = getJSONObject(deviceInfo, locationInfo);
-        Log.i("HTTPAsyncTask", json.toString());
-        sendToServer(json.toString());*/
-
-        /*HTTPAsyncTask httpTask = new HTTPAsyncTask(mContext, reading);
-        httpTask.execute();*/
-    }
-
-    protected int sendToServer(String jsonString) {
-        HttpClient httpClient = new DefaultHttpClient();
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String serverURL = sharedPreferences.getString("AppPreferences",
-                Constants.DEFAULT_SERVER_URL);
-
-        //HttpPost postMethod = new HttpPost(mContext.getString(R.string.server_url));
-        HttpPost postMethod = new HttpPost(serverURL);
-
-        try {
-            StringEntity se = new StringEntity(jsonString);
-            postMethod.setEntity(se);
-            postMethod.setHeader("Accept","application/json");
-            postMethod.setHeader("Content-type", "application/json");
-
-            HttpResponse response = httpClient.execute(postMethod);
-
-            return response.getStatusLine().getStatusCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    private JSONObject getJSONObject(DeviceInfo deviceInfo,
-                                     edu.columbia.locationsensor.Location location) {
-        JSONObject dataObj = null;
-        try {
-            dataObj = new JSONObject();
-            if (deviceInfo != null) {
-                JSONObject deviceInfoObj = new JSONObject();
-                deviceInfoObj.put(Constants.OS_VERSION, deviceInfo.getOsVersion());
-                deviceInfoObj.put(Constants.BUILD_VERSION, deviceInfo.getBuildVersion());
-                deviceInfoObj.put(Constants.BUILD_VERSION_SDK, deviceInfo.getBuildVersion());
-                deviceInfoObj.put(Constants.DEVICE, deviceInfo.getDevice());
-                deviceInfoObj.put(Constants.MODEL, deviceInfo.getModel());
-                deviceInfoObj.put(Constants.PRODUCT, deviceInfo.getProduct());
-                deviceInfoObj.put(Constants.TS, deviceInfo.getRefreshTime());
-                dataObj.put(Constants.DEVICE_INFO, deviceInfoObj);
-            }
-            if (location != null) {
-                JSONObject locationInfoObj = new JSONObject();
-                locationInfoObj.put(Constants.NAME, location.getLocationName());
-                locationInfoObj.put(Constants.BUILDING, location.getBuilding());
-                locationInfoObj.put(Constants.FLOOR, location.getFloor());
-                locationInfoObj.put(Constants.ROOM, location.getFloor());
-                locationInfoObj.put(Constants.STREET_ADDRESS, location.getStreetAddress());
-                locationInfoObj.put(Constants.CITY, location.getCity());
-                locationInfoObj.put(Constants.ZIPCODE, location.getZipCode());
-                dataObj.put(Constants.LOCATIONINFO, locationInfoObj);
-            }
-        } catch(JSONException je) {
-            je.printStackTrace();
-        }
-        return dataObj;
-    }
-}
-
-
+/**
+ * This thread invokes the reverse geocoding service to obtain a street address, city and zip code.
+ * This is used by the home screen widget to send updates once a location has been selected.
+ *
+ */
 class LocationUpdateSender extends Thread {
     private String location;
     private LocationDataSource locationDataSource;
@@ -867,14 +664,8 @@ class LocationUpdateSender extends Thread {
                 }
             }
             locationObj.setStreetAddress(street + " " + route);
-
-            /*HttpSenderThread senderThread = new HttpSenderThread(mContext, location, locationObj.getBuilding(),
-                    locationObj.getFloor(), locationObj.getRoom(), locationObj.getStreetAddress(), locationObj.getCity(), locationObj.getZipCode());
-            senderThread.start();*/
-
             locationDataSource.open();
             locationDataSource.insertLocation(locationObj);
-            //locationDataSource.close();
 
             String toastMessage = mContext.getString(R.string.location_sent);
             Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
@@ -889,7 +680,11 @@ class LocationUpdateSender extends Thread {
     }
 }
 
-
+/**
+ * This class is responsible for the reverse translation from coordinates to a street, city and zip address.
+ * Once it gets the required details, it populates the required user interface fields.
+ * This is used by the application main screen.
+ */
 class ReverseGeocoder extends Thread {
     edu.columbia.locationsensor.Address address;
     LocationCoordinates coordinates;
@@ -928,11 +723,9 @@ class ReverseGeocoder extends Thread {
 
             String url = builder.toString();
 
-            //Thread.sleep(30 * 1000);
             HttpPost post = new HttpPost(url);
             HttpClient client = new DefaultHttpClient();
             HttpResponse response = client.execute(post);
-            //HttpResponse response = null;
 
             InputStream stream = response.getEntity().getContent();
             builder = new StringBuilder();

@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.TimerTask;
 
 /**
- * Created by Pooja on 4/29/15.
+ * This task runs periodically. It fetches sensor readings from the in-memory SQLite database,
+ * and sends them to the backend web server application. After sending the readings, it
+ * deletes them from the SQLite database.
  */
 public class DataFlusher extends TimerTask {
 
@@ -37,6 +39,10 @@ public class DataFlusher extends TimerTask {
         this.locationDataSource = new LocationDataSource(mContext);
     }
 
+    /**
+     * Checks if internet connectivity is available.
+     * @return
+     */
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -44,29 +50,26 @@ public class DataFlusher extends TimerTask {
         return netInfo != null && netInfo.isConnected();
     }
 
+    /**
+     * Sends sensor readings to the backend webapp if internet connectivity is available.
+     */
     @Override
     public void run() {
-
         if (isOnline()) {
             this.pressureDataSource.open();
             sendPressureReadings();
-            //this.pressureDataSource.close();
 
             this.coordinatesDataSource.open();
             sendCoordinateReadings();
-            //this.coordinatesDataSource.close();
 
             this.wifiDataSource.open();
             sendWifiReadings();
-            //this.wifiDataSource.close();
 
             this.magnetometerDataSource.open();
             sendMagnetometerReadings();
-            //this.magnetometerDataSource.close();
 
             this.locationDataSource.open();
             sendLocationReadings();
-            //this.locationDataSource.close();
         }
     }
 
@@ -114,8 +117,6 @@ public class DataFlusher extends TimerTask {
         }
 
         Log.i("DataFlusher", "Done with location readings to the server");
-
-
     }
 
     private void sendPressureReadings() {
@@ -145,7 +146,7 @@ public class DataFlusher extends TimerTask {
             }
             pressure.put(Constants.DEVICE_INFO, deviceInfoObj);
 
-            PressureHttpAsyncTask senderTask = new PressureHttpAsyncTask(mContext, pressure);
+            PressureSenderThread senderTask = new PressureSenderThread(mContext, pressure);
             senderTask.execute();
 
             for (PressureReading pressureReading : readings) {
@@ -171,8 +172,6 @@ public class DataFlusher extends TimerTask {
                 wifiObj.put(Constants.TS, wifiNetwork.getTimeStamp());
                 array.put(wifiObj);
 
-                /*if(array.length() > 5)
-                    break;*/
             }
 
             JSONObject coordinatesList = new JSONObject();
@@ -191,13 +190,10 @@ public class DataFlusher extends TimerTask {
             }
             coordinatesList.put(Constants.DEVICE_INFO, deviceInfoObj);
 
-            WifiHttpAsyncTask senderTask = new WifiHttpAsyncTask(mContext, coordinatesList);
+            WifiSenderThread senderTask = new WifiSenderThread(mContext, coordinatesList);
             senderTask.execute();
 
             wifiDataSource.deleteWifiReading(null, 0);
-            /*for (WifiNetwork  wifiNetwork : readings) {
-                wifiDataSource.deleteWifiReading(wifiNetwork.getSSID(), wifiNetwork.getTimeStamp());
-            }*/
             Log.i("DataFlusher", "Done with wifi readings to the server");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -238,9 +234,6 @@ public class DataFlusher extends TimerTask {
 
             magnetometerDataSource.deleteMagnetometerReading();
 
-            /*for (MagnetometerReading magnetometerReading : readings) {
-                magnetometerDataSource.deleteMagnetometerReading(magnetometerReading.getX(), magnetometerReading.getY(), magnetometerReading.getZ(), magnetometerReading.getRefreshTime());
-            }*/
             Log.i("DataFlusher", "Done with magnetometer readings to the server");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -280,7 +273,7 @@ public class DataFlusher extends TimerTask {
                 }
                 coordinatesList.put(Constants.DEVICE_INFO, deviceInfoObj);
 
-                CoordinatesHttpAsyncTask senderTask = new CoordinatesHttpAsyncTask(mContext, coordinatesList);
+                CoordinatesSenderThread senderTask = new CoordinatesSenderThread(mContext, coordinatesList);
                 senderTask.execute();
 
                 for (LocationCoordinates coordinates : readings) {
@@ -291,6 +284,5 @@ public class DataFlusher extends TimerTask {
                 e.printStackTrace();
             }
         }
-
     }
 }

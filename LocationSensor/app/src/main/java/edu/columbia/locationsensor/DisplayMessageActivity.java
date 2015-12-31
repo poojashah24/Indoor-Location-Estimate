@@ -27,32 +27,10 @@ public class DisplayMessageActivity extends ActionBarActivity {
         setContentView(textView);
     }
 
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-
-        String text = textView.getText().toString();
-        text = "This is the saved string: " + text;
-        outState.putString(MESSAGE, text);
-
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        String message = savedInstanceState.getString(MESSAGE);
-        textView.setText(message);
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

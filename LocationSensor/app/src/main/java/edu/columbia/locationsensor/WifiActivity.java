@@ -29,19 +29,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * User interface for the Wi-Fi sensor widget. This shows a listing of all the access points
+ * detected by the Wi-Fi sensor.
+ */
 public class WifiActivity extends FragmentActivity{
 
     private WifiResultsReceiver1 wifiResultsReceiver;
     WifiManager wifiManager = null;
-    //TextView textView;
     ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi);
-        //textView = (TextView) findViewById(R.id.wifi_results);
         listView = (ListView) findViewById(R.id.wifi_results);
 
         wifiManager = (WifiManager )getSystemService(Context.WIFI_SERVICE);
@@ -79,19 +80,14 @@ public class WifiActivity extends FragmentActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_wifi, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -103,16 +99,10 @@ public class WifiActivity extends FragmentActivity{
 class WifiResultsReceiver1 extends BroadcastReceiver implements AdapterView.OnItemClickListener {
 
     WifiManager wifiManager;
-    //TextView textView;
     Activity activity;
     ListView listView;
     Context mContext;
     List<WifiNetwork> wifiNetworksList = null;
-
-    /*public WifiResultsReceiver1(WifiManager wifiManager, TextView textView) {
-        this.wifiManager = wifiManager;
-        this.textView = textView;
-    }*/
 
     public WifiResultsReceiver1(Context context, Activity activity, WifiManager wifiManager, ListView listView) {
         this.wifiManager = wifiManager;
@@ -139,27 +129,15 @@ class WifiResultsReceiver1 extends BroadcastReceiver implements AdapterView.OnIt
             listView.setOnItemClickListener(this);
         }
 
-
-        /*if(wifiNetworks != null) {
-            builder.append("Total number of networks found: " + wifiNetworks.size());
-            builder.append("\n");
-
-
-            textView.setVerticalScrollBarEnabled(wifiNetworks.size() > 16);
-            textView.setMovementMethod(ScrollingMovementMethod.getInstance());
-            textView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-
-
-            for (ScanResult res : wifiNetworks) {
-                builder.append(res.SSID + "\n");
-                builder.append(res.frequency + "\n");
-                builder.append(res.level + "\n");
-                builder.append("\n");
-            }
-            textView.setText(builder.toString());
-        }*/
     }
 
+    /**
+     * Click handler to display the selected access point's details.
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {

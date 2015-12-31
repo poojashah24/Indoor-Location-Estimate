@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Pooja on 2/22/15.
+ * Stores pressure readings captured by the pressure sensor.
  */
 public class PressureReading {
     private double pressureInMb;

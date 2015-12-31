@@ -13,7 +13,7 @@ import com.google.android.gms.location.LocationServices;
 
 
 /**
- * Created by Pooja on 2/22/15.
+ * Callback client for the location API.
  */
 public class LocationSensor implements Runnable, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
@@ -33,7 +33,6 @@ public class LocationSensor implements Runnable, GoogleApiClient.ConnectionCallb
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
-        //coordinates = new LocationCoordinates(latitude, longitude);
         String res = "Latitude: " + latitude + "\nLongitude: " + longitude;
         exception = null;
     }

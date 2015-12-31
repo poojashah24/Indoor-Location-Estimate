@@ -5,15 +5,16 @@ import android.content.Context;
 import org.json.JSONObject;
 
 /**
- * Created by Pooja on 4/29/15.
+ * Thread to send wifi sensor readings to the backend server application
  */
-public class WifiHttpAsyncTask extends HTTPAsyncTask {
+public class WifiSenderThread extends HTTPAsyncTask {
 
     private JSONObject wifiReadings;
-    public WifiHttpAsyncTask(Context mContext, JSONObject wifiReadings) {
+    public WifiSenderThread(Context mContext, JSONObject wifiReadings) {
         super(mContext);
         this.wifiReadings = wifiReadings;
     }
+
     @Override
     protected Integer doInBackground(Void... params) {
         super.sendToServer(wifiReadings.toString());
