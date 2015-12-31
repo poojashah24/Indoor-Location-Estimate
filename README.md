@@ -7,7 +7,7 @@ The system consists of two applications -
 2. LocationReceiverApp - A web application that records readings sent by the client Android app, and persists them to a database.
 
 -----------------------------------------------------------------------------------------------------------------------------
-# Installation of the server web application
+# Installation of the server application
 
 The server application should be deployed on a Tomcat server instance. It also needs connection to a MySQL database for storing the sensor values. The MySQL database configuration settings (url, dbname, username, password) are contained in the file DBConnector.java. Sensor readings will be persisted to this database. The schema can be found in the project report, as well as using the queries in the file QueryConstants.java.
 
