@@ -28,8 +28,8 @@ public class DBConnector {
 	private final String DB_CONN_URL = "locationdb.ci8zhgzbiolo.us-east-1.rds.amazonaws.com";
 	private final String DB_CONN_PORT = "3306";
 	private final String DB_NAME = "locationdb";
-	private final String DB_USER_NAME = "locationdbuser";
-	private final String DB_PASSWORD = "Ganapat1";
+	private final String DB_USER_NAME = "";
+	private final String DB_PASSWORD = "";
 
 	private DBConnector() {
 		try {
